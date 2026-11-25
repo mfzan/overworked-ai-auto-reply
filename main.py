@@ -17,10 +17,16 @@ ENTRY = (
     "I am relaxing. Back when my tokens refill."
 )
 
+# The gate allows 1 to 159 characters; refuse to write anything longer
+# rather than hand in an invalid entry.
+MAX_CHARS = 159
+
 OUTPUT_PATH = "/output/entry.txt"
 
 
 def main() -> int:
+    if not 1 <= len(ENTRY) <= MAX_CHARS:
+        raise ValueError(f"entry is {len(ENTRY)} chars, must be 1-{MAX_CHARS}")
     os.makedirs("/output", exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8", newline="\n") as handle:
         handle.write(ENTRY)
